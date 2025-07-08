@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  /* Azul */
+  --color-azul-escuro: #003366;
+  --color-azul-claro: #66A3FF;
+  --color-gradiente-azul-claro-inicio: #FFFFFF;
+  --color-gradiente-azul-claro-fim: #66A3FF;
+  --color-fundo-principal: #DFE7F4;
+
+  /* Gráficos */
+  --color-azul-grafico: #2567F9;
+  --color-roxo-grafico: #8F3CFF;
+  --color-magenta-grafico: #FF2E7A;
+
+  /* Neutros */
+  --color-branco: #FFFFFF;
+  --color-preto: #000000;
+  --color-cinza-claro: #E9E9E9;
+  --color-cinza-escuro: #CBCBCB;
+
+  /* Status */
+  --color-erro: #F64F51;
+  --color-sucesso: #68E168;
+
+  --color-text-field: #444444;
+  --color-text-field-light: #8B8B8B;
+  --color-label: #2E2E2E;
+  --color-label: #2E2E2E;
+  
+}
+
+.bg-gradiente-azul {
+  background: linear-gradient(var(--color-gradiente-azul-claro-inicio), var(--color-gradiente-azul-claro-fim));
+}
