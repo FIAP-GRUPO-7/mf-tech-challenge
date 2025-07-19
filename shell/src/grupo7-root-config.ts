@@ -1,3 +1,4 @@
+import './globals.css';
 import { registerApplication, start } from "single-spa";
 import {
   constructApplications,
@@ -5,7 +6,6 @@ import {
   constructLayoutEngine,
 } from "single-spa-layout";
 import microfrontendLayout from "./microfrontend-layout.html";
-import './globals.css';
 
 const routes = constructRoutes(microfrontendLayout);
 const applications = constructApplications({

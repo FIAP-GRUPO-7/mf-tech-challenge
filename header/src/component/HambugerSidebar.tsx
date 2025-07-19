@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { cn } from "../lib/utils";
+import { IoMdClose } from "react-icons/io";
 
 const settings = [
   {
@@ -11,7 +13,7 @@ const settings = [
   },
   {
     label: "Investimentos",
-    value: "http://localhost:3000/investments",
+    value: "/",
   },
   {
     label: "Outros serviços",
@@ -25,7 +27,17 @@ interface HamburgerSidebarProps {
 }
 
 export const HamburgerSidebar = ({ show, onClose }: HamburgerSidebarProps) => {
-  //const pathname = usePathname();
+  const [pathname, setPathname] = useState(window.location.pathname);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      setPathname(window.location.pathname);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, []);
   return (
     <div
       className={`bg-fundo-principal px-2 py-4 absolute top-0 left-0 w-[172px] min-h-[256px] transition-transform duration-300 ease-in-out ${
@@ -34,7 +46,9 @@ export const HamburgerSidebar = ({ show, onClose }: HamburgerSidebarProps) => {
     >
       <div className="flex w-full justify-end">
         <button className="cursor-pointer" onClick={onClose}>
-          {/*<IoMdClose color="black" size={24} />*/}
+          {// @ts-ignore
+            <IoMdClose color="black" size={24} />
+            }
         </button>
       </div>
       <div>
@@ -42,14 +56,14 @@ export const HamburgerSidebar = ({ show, onClose }: HamburgerSidebarProps) => {
           <ul className="px-6 flex  flex-wrap justify-between xl:flex-col xl:w-full xl:text-center">
             {settings.map((navItem, index) => {
               const isLast = index === settings.length - 1;
-              //const isCurrent = pathname === navItem.value;
+              const isCurrent = pathname === navItem.value;
               return (
                 <a key={navItem.value} href={navItem.value}>
                   <li
                     className={cn(
                       "flex-1 min-w-[115px] text-black text-center py-2 border-b-2 hover:text-azul-escuro",
                       isLast && "border-b-0",
-                      //isCurrent && " text-azul-claro font-bold xl:border-b-0"
+                      isCurrent && " text-azul-claro font-bold xl:border-b-0"
                     )}
                   >
                     {navItem.label}

@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "../lib/utils";
+import { IoMdClose } from "react-icons/io";
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  terms: boolean;
+  password: string;
+}
 
 interface DropdownMenuProps {
   children: React.ReactNode;
@@ -18,6 +27,20 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   //const pathname = usePathname();
   //const { signOut } = useAuth();
+
+  const [user, setUser] = useState<User | null>(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const signOut = () => {
+    localStorage.removeItem("user");
+    setLoading(false);
+    setError("");
+    setTimeout(() => {
+      setUser(null);
+    }, 1000);
+    window.location.href = "http://localhost:3000/";
+  };
 
   // Fecha o menu ao clicar fora
   useEffect(() => {
@@ -41,7 +64,7 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
       label: "Minha conta",
       action: {
         type: ActionTypeEnum.NAVIGATE,
-        value: "/account",
+        value: "http://localhost:3000/account",
       },
     },
     {
@@ -49,7 +72,7 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
       label: "Configurações",
       action: {
         type: ActionTypeEnum.NAVIGATE,
-        value: "/settings",
+        value: "http://localhost:3000/settings",
       },
     },
     {
@@ -58,7 +81,7 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
       action: {
         type: ActionTypeEnum.ACTION,
         value: () => {
-          //signOut();
+          signOut();
         },
       },
     },
@@ -77,7 +100,10 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
         <div className="origin-top-right absolute right-0 mt-1 w-56 rounded-md shadow-lg bg-black z-10 p-2">
           <div className="flex w-full justify-end">
             <button className="cursor-pointer" onClick={onClose}>
-              {/*<IoMdClose color="white" size={16} />*/}
+              {
+                // @ts-ignore
+              <IoMdClose color="white" size={16} />
+              }
             </button>
           </div>
           <ul className="px-8" role="menu" aria-orientation="vertical">
@@ -102,7 +128,7 @@ export const DropdownMenu = ({ children }: DropdownMenuProps) => {
                   key={option.id}
                   href={option.action.value as ActionTypeValueNavigate}
                   className={cn(
-                    "block px-4 pb-4 text-md text-center text-white border-b-1 border-white hover:border-azul-escuro",
+                    "block px-4 pb-4 text-md text-center text-white border-b-1 border-white border-azul-escuro-hover",
                     index > 0 && "pt-4",
                     //pathname === option.action.value && "border-azul-escuro"
                   )}

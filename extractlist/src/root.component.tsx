@@ -1,15 +1,13 @@
 import { useState, useEffect } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { HiPencil } from "react-icons/hi";
 import { IoTrashOutline } from "react-icons/io5";
 import { formatToBRL } from "./helpers/formatToBRL";
 import { TransactionProvider, useTransactionContext } from "./context/TransactionContext";
-import './globals.css';
-//
+
 export function ExtractList() {
   const { transactions, editTransaction, deleteTransaction } = useTransactionContext();
   const [selectedId, setSelectedId] = useState<string | null>(null);
-  
+
   function handleEdit(id: string, currentValue: number) {
     const newValue = prompt("Novo valor da transação:", currentValue.toString());
     if (newValue) {
@@ -21,14 +19,14 @@ export function ExtractList() {
       }
     }
   }
-  
+
   function handleDelete(id: string) {
     if (confirm("Deseja excluir esta transação?")) {
       deleteTransaction(id);
       setSelectedId(null);
     }
   }
-  
+
   if (transactions.length === 0) {
     return (
       <div className="bg-white rounded-md px-6 py-8 xl:w-[282px] text-center">
@@ -36,7 +34,7 @@ export function ExtractList() {
       </div>
     );
   }
-  
+
   return (
     <div className="max-h-max bg-white rounded-md px-6 py-8 xl:w-[282px]">
       <div className="flex justify-between items-center mb-6 gap-4 flex-wrap">
@@ -48,16 +46,20 @@ export function ExtractList() {
               if (item) handleEdit(item.id, item.value);
               else alert("Selecione uma transação para editar.");
             }}
-            >
-            {/*<HiPencil color="white" size={25} />*/}
+          >
+            {// @ts-ignore
+              <HiPencil color="white" size={25} />
+            }
           </RoundedButton>
           <RoundedButton
             onClick={() => {
               if (selectedId) handleDelete(selectedId);
               else alert("Selecione uma transação para excluir.");
             }}
-            >
-            {/*<IoTrashOutline color="white" size={25} />*/}
+          >
+            {// @ts-ignore
+              <IoTrashOutline color="white" size={25} />
+            }
           </RoundedButton>
         </div>
       </div>
@@ -73,31 +75,28 @@ export function ExtractList() {
           const monthName = dateObj.toLocaleDateString("pt-BR", {
             month: "long",
           });
-          
+
           return (
             <div
-            key={extract.id}
-            onClick={() => setSelectedId(extract.id)}
-            className={`cursor-pointer p-2 rounded transition ${
-              selectedId === extract.id
-              ? "bg-gray-100 border border-azul-claro"
-              : ""
-            } flex justify-between items-center flex-wrap-reverse`}
+              key={extract.id}
+              onClick={() => setSelectedId(extract.id)}
+              className={`cursor-pointer p-2 rounded transition ${selectedId === extract.id
+                  ? "bg-gray-100 border border-azul-claro"
+                  : ""
+                } flex justify-between items-center flex-wrap-reverse`}
             >
               <div
-                className={`flex-1 flex flex-col gap-2 border-b-1 pb-2 ${
-                  extract.type.toLowerCase() === "depósito"
-                  ? "border-sucesso"
-                  : "border-erro"
-                }`}
-                >
+                className={`flex-1 flex flex-col gap-2 border-b-1 pb-2 ${extract.type.toLowerCase() === "depósito"
+                    ? "border-sucesso"
+                    : "border-erro"
+                  }`}
+              >
                 <h4 className="text-label font-semibold text-md">{monthName}</h4>
                 <p className="text-lg">{extract.type}</p>
                 <b
-                  className={`text-lg font-bold ${
-                    extract.value < 0 ? "text-red-600" : ""
-                  }`}
-                  >
+                  className={`text-lg font-bold ${extract.value < 0 ? "text-red-600" : ""
+                    }`}
+                >
                   {extract.value < 0
                     ? `- R$ ${formatToBRL(Math.abs(extract.value)).replace("R$", "").trim()}`
                     : formatToBRL(extract.value)}

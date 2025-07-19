@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { TransactionProvider, useTransactionContext } from "./context/TransactionContext";
 import { formatToBRL } from "./helpers/formatToBRL";
-import './globals.css'
 
 export function GreetingCard({ children }: { children?: React.ReactNode }) {
   const [name, setName] = useState<string>("Usuário");
@@ -42,7 +41,7 @@ export function GreetingCard({ children }: { children?: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="w-full bg-blue-900 rounded-md p-6 flex gap-4 flex-col sm:flex-row sm:h-[406px]">
+    <div className="w-full bg-azul-escuro rounded-md p-6 flex gap-4 flex-col sm:flex-row sm:h-[406px]">
       <div className="flex flex-col gap-6 flex-1">
         <h2 className="text-2xl text-white">Olá, {name}! :)</h2>
         <p className="text-white">{date}</p>
@@ -53,7 +52,14 @@ export function GreetingCard({ children }: { children?: React.ReactNode }) {
             <h3 className="text-xl text-white flex items-center gap-6">
               <span>Saldo</span>
               <button onClick={() => setShow((prev) => !prev)}>
-                {show ? <FaEyeSlash /> : <FaEye />}
+                {
+                  show ?
+                    // @ts-ignore 
+                    <FaEyeSlash />
+                    :
+                    // @ts-ignore
+                    <FaEye />
+                }
               </button>
             </h3>
           </div>
