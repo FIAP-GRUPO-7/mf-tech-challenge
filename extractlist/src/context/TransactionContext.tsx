@@ -26,10 +26,6 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-  }, [transactions]);
-
   function addTransaction(transaction: Extract) {
     setTransactions((prev) => [...prev, transaction]);
   }
@@ -42,37 +38,6 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
 
   function deleteTransaction(id: string) {
     setTransactions((prev) => prev.filter((item) => item.id !== id));
-  }
-
-  //<!-- SCRIPT PARA RECEBER DADOS DO USUARIO DA URL  -->
-  const queryString = window.location.search;
-
-  const params = new URLSearchParams(queryString);
-
-  const encodedData = params.get('data');
-
-  if (encodedData) {
-    try {
-      const decodedString = decodeURIComponent(encodedData);
-
-      const receivedData = JSON.parse(decodedString);
-      console.log(receivedData)
-
-      if (receivedData.user) {
-        localStorage.removeItem('user');
-        localStorage.setItem('user', JSON.stringify(receivedData.user));
-      }
-      if (receivedData.users) {
-        localStorage.removeItem('users');
-        localStorage.setItem('users', JSON.stringify(receivedData.users));
-      }
-      if (receivedData.transactions) {
-        localStorage.removeItem('transactions');
-        localStorage.setItem('transactions', JSON.stringify(receivedData.transactions));
-      }
-    } catch (error) {
-      console.error('Erro ao processar dados da URL:', error);
-    }
   }
 
   return (

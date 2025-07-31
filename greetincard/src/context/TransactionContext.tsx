@@ -1,4 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { fetchUser } from "../lib/api";
 
 export type Extract = {
   id: string;
@@ -26,10 +28,6 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
     }
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-  }, [transactions]);
-
   function addTransaction(transaction: Extract) {
     setTransactions((prev) => [...prev, transaction]);
   }
@@ -56,24 +54,41 @@ export function TransactionProvider({ children }: { children: React.ReactNode })
       const decodedString = decodeURIComponent(encodedData);
 
       const receivedData = JSON.parse(decodedString);
-      console.log(receivedData)
 
       if (receivedData.user) {
         localStorage.removeItem('user');
         localStorage.setItem('user', JSON.stringify(receivedData.user));
       }
-      if (receivedData.users) {
-        localStorage.removeItem('users');
-        localStorage.setItem('users', JSON.stringify(receivedData.users));
-      }
-      if (receivedData.transactions) {
-        localStorage.removeItem('transactions');
-        localStorage.setItem('transactions', JSON.stringify(receivedData.transactions));
+      if (receivedData.token) {
+        localStorage.removeItem('token');
+        localStorage.setItem('token', receivedData.token);
       }
     } catch (error) {
       console.error('Erro ao processar dados da URL:', error);
     }
   }
+  useEffect(() => {
+    async function fetchUserData() {
+      try {
+        const token = Cookies.get("token");
+        if (!token) {
+          console.error("Usuário não autenticado");
+          return;
+        }
+        const user = await fetchUser(token);
+      } catch (e) {
+        console.error("Erro ao buscar dados do usuário:", e);
+      } finally {
+        // --- Início da funcionalidade de limpeza da URL ---
+        // Pega a URL atual sem o queryString
+        const baseUrl = window.location.origin + window.location.pathname;
+        // Substitui o estado atual do histórico para limpar a URL
+        window.history.replaceState({}, document.title, baseUrl);
+        // --- Fim da funcionalidade de limpeza da URL ---
+      }
+    }
+    fetchUserData();
+  }, []);
 
   return (
     <TransactionContext.Provider

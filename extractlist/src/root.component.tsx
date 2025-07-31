@@ -2,18 +2,27 @@ import { useState, useEffect } from "react";
 import { HiPencil } from "react-icons/hi";
 import { IoTrashOutline } from "react-icons/io5";
 import { formatToBRL } from "./helpers/formatToBRL";
+import Cookies from "js-cookie";
 import { TransactionProvider, useTransactionContext } from "./context/TransactionContext";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteTransaction, editTransaction, selectTransactions } from "./features/transactions";
+import { Providers } from "./providers";
+import { fetchUser } from "./lib/api";
 
 export function ExtractList() {
-  const { transactions, editTransaction, deleteTransaction } = useTransactionContext();
+  const transactions = useSelector(selectTransactions);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const dispatch = useDispatch();
 
   function handleEdit(id: string, currentValue: number) {
-    const newValue = prompt("Novo valor da transação:", currentValue.toString());
+    const newValue = prompt(
+      "Novo valor da transação:",
+      currentValue.toString()
+    );
     if (newValue) {
       const numeric = Number(newValue);
       if (!isNaN(numeric)) {
-        editTransaction(id, numeric);
+        dispatch(editTransaction({ id, value: numeric }));
       } else {
         alert("Valor inválido.");
       }
@@ -22,7 +31,7 @@ export function ExtractList() {
 
   function handleDelete(id: string) {
     if (confirm("Deseja excluir esta transação?")) {
-      deleteTransaction(id);
+      dispatch(deleteTransaction(id));
       setSelectedId(null);
     }
   }
@@ -41,6 +50,10 @@ export function ExtractList() {
         <h4 className="text-2xl font-bold">Extrato</h4>
         <div className="flex gap-2">
           <RoundedButton
+            aria-label="Clique para editar transação"
+            data-tooltip-id="button"
+            data-tooltip-content="Clique para editar transação"
+            data-tooltip-place="bottom"
             onClick={() => {
               const item = transactions.find((e) => e.id === selectedId);
               if (item) handleEdit(item.id, item.value);
@@ -52,6 +65,10 @@ export function ExtractList() {
             }
           </RoundedButton>
           <RoundedButton
+            aria-label="Clique para excluir transação"
+            data-tooltip-id="button"
+            data-tooltip-content="Clique para excluir transação"
+            data-tooltip-place="bottom"
             onClick={() => {
               if (selectedId) handleDelete(selectedId);
               else alert("Selecione uma transação para excluir.");
@@ -98,7 +115,9 @@ export function ExtractList() {
                     }`}
                 >
                   {extract.value < 0
-                    ? `- R$ ${formatToBRL(Math.abs(extract.value)).replace("R$", "").trim()}`
+                    ? `- R$ ${formatToBRL(Math.abs(extract.value))
+                      .replace("R$", "")
+                      .trim()}`
                     : formatToBRL(extract.value)}
                 </b>
               </div>
@@ -126,8 +145,8 @@ export const RoundedButton = ({ children, ...props }: ButtonProps) => {
 
 export function Root({ children }: { children?: React.ReactNode }) {
   return (
-    <TransactionProvider>
-      <ExtractList></ExtractList>
-    </TransactionProvider>
+    <Providers>
+        <ExtractList></ExtractList>
+    </Providers>
   );
 }
