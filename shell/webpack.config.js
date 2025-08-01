@@ -1,6 +1,6 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require("path");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "grupo7";
@@ -9,18 +9,18 @@ module.exports = (webpackConfigEnv, argv) => {
     projectName: "root-config",
     webpackConfigEnv,
     argv,
+    disableHtmlGeneration: true,
   });
 
   return merge(defaultConfig, {
-    plugins: [
-      new HtmlWebpackPlugin({
-        inject: false,
-        template: "src/index.ejs",
-        templateParameters: {
-          isLocal: webpackConfigEnv && webpackConfigEnv.isLocal,
-          orgName,
-        },
-      }),
-    ],
+    entry: path.resolve(__dirname, "src/root-config.ts"),
+    output: {
+      filename: "grupo7-root-config.js",
+      libraryTarget: "system",
+      publicPath: "/",
+    },
+    optimization: {
+      minimize: false, 
+    },
   });
 };
