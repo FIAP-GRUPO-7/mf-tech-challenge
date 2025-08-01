@@ -19,5 +19,8 @@ module.exports = (webpackConfigEnv, argv) => {
       libraryTarget: "system",
       publicPath: "/",
     },
+    optimization: {
+      minimize: false, 
+    },
   });
 };
