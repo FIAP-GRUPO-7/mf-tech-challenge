@@ -3,8 +3,7 @@
   "scripts": {
     "start": "webpack serve --port 8504",
     "start:standalone": "webpack serve --env standalone",
-    "build": "concurrently npm:build:*",
-    "build:webpack": "webpack --mode=production",
+    "build": "webpack --mode=production",
     "analyze": "webpack --mode=production --env analyze",
     "lint": "eslint src --ext js,ts,tsx",
     "format": "prettier --write .",
