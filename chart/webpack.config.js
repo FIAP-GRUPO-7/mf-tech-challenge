@@ -1,16 +1,21 @@
 const { merge } = require("webpack-merge");
+const webpack = require("webpack");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "grupo7",
-    projectName: "chart",
+    projectName: "chart", // Altere para o nome correto em outros microfrontends
     webpackConfigEnv,
     argv,
-    outputSystemJS: true,
+    outputSystemJS: true, // IMPORTANTE para funcionar com System.import
   });
 
   return merge(defaultConfig, {
-    // modify the webpack config however you'd like to by adding to this object
+    plugins: [
+      new webpack.DefinePlugin({
+        "process.env.NODE_ENV": JSON.stringify("production"),
+      }),
+    ],
   });
 };
