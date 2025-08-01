@@ -9,7 +9,7 @@ module.exports = (webpackConfigEnv, argv) => {
     projectName: "extractlist",
     webpackConfigEnv,
     argv,
-    outputSystemJS: true,
+    outputSystemJS: false,
   });
 
   return merge(defaultConfig, {
