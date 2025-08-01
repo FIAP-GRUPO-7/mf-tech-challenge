@@ -1,5 +1,4 @@
 const { merge } = require("webpack-merge");
-const webpack = require("webpack");
 const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 const Dotenv = require("dotenv-webpack");
 
@@ -15,13 +14,11 @@ module.exports = (webpackConfigEnv, argv) => {
   return merge(defaultConfig, {
     plugins: [
       new Dotenv({
-        path: `./.env.${webpackConfigEnv.NODE_ENV || "development"}`,
-        systemvars: true,
-        safe: false,
-      }),
-      new webpack.DefinePlugin({
-        "process.env.NODE_ENV": JSON.stringify("production"),
+        path: `./.env.${webpackConfigEnv.NODE_ENV || 'development'}`, // Caminho para o seu arquivo .env
+        systemvars: true, // Permite que variáveis do sistema (como NODE_ENV) sejam acessadas
+        safe: false, // Não falha se o arquivo .env não existir
       }),
     ],
+    // Adicione outras modificações se necessário
   });
 };
