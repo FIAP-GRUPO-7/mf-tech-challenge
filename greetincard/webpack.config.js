@@ -7,7 +7,7 @@ module.exports = (webpackConfigEnv, argv) => {
     projectName: "greetingcard",
     webpackConfigEnv,
     argv,
-    outputSystemJS: false,
+    outputSystemJS: true,
   });
 
   return merge(defaultConfig, {
