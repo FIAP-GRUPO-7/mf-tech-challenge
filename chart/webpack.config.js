@@ -5,10 +5,10 @@ const singleSpaDefaults = require("webpack-config-single-spa-react-ts");
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "grupo7",
-    projectName: "chart", // Altere para o nome correto em outros microfrontends
+    projectName: "chart",
     webpackConfigEnv,
     argv,
-    outputSystemJS: true, // IMPORTANTE para funcionar com System.import
+    outputSystemJS: true,
   });
 
   return merge(defaultConfig, {
