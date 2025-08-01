@@ -1,5 +1,6 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
+const path = require("path");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "grupo7";
@@ -12,7 +13,7 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    entry: "./src/root-config.ts",
+    entry: path.resolve(__dirname, "src/root-config.ts"),
     output: {
       filename: "grupo7-root-config.js",
       libraryTarget: "system",
