@@ -21,6 +21,7 @@ module.exports = (webpackConfigEnv, argv) => {
       filename: "grupo7-root-config.js",
       libraryTarget: "system",
       publicPath: "/",
+      path: path.resolve(__dirname, "dist"),
     },
     optimization: {
       minimize: false,
