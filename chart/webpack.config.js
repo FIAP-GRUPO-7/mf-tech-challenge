@@ -8,7 +8,7 @@ module.exports = (webpackConfigEnv, argv) => {
     projectName: "chart",
     webpackConfigEnv,
     argv,
-    outputSystemJS: true,
+    outputSystemJS: false,
   });
 
   return merge(defaultConfig, {
