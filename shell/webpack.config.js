@@ -1,16 +1,18 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "grupo7";
+
   const defaultConfig = singleSpaDefaults({
     orgName,
     projectName: "root-config",
     webpackConfigEnv,
     argv,
-    disableHtmlGeneration: false, 
+    disableHtmlGeneration: true,
   });
 
   return merge(defaultConfig, {
@@ -27,9 +29,16 @@ module.exports = (webpackConfigEnv, argv) => {
       new HtmlWebpackPlugin({
         template: path.resolve(__dirname, "src/index.ejs"),
         inject: false,
+        filename: "index.html",
         templateParameters: {
           isLocal: webpackConfigEnv && webpackConfigEnv.isLocal === "true",
         },
+      }),
+      new CopyPlugin({
+        patterns: [
+          { from: "src/globals.css", to: "globals.css" },
+          { from: "src/favicon64px.ico", to: "favicon64px.ico" },
+        ],
       }),
     ],
   });
