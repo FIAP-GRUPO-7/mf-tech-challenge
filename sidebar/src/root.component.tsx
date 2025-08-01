@@ -4,45 +4,10 @@ import { cn } from "./lib/utils";
 import { useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 
-// --- Interfaces e Tipos ---
 interface NavItem {
   label: string;
   value: string;
   isMicrofrontendLink?: boolean;
-}
-
-interface UserData {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any | null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  users: any[] | null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  transactions: any[] | null;
-}
-
-// --- Função de Utilitário para Obter Dados do LocalStorage para URL ---
-/**
- * Obtém dados do localStorage e os formata como uma string JSON codificada para URL.
- * Garante que o acesso ao localStorage só ocorra no ambiente do navegador.
- * @returns {string} Uma string JSON codificada para URL contendo os dados do usuário e transações.
- */
-function getMicrofrontendDataForUrl(): string {
-  if (typeof window === 'undefined') {
-    // Retorna uma string JSON vazia e codificada se estiver no servidor
-    console.warn("localStorage não disponível: getMicrofrontendDataForUrl tentou rodar no servidor.");
-    return encodeURIComponent(JSON.stringify({ user: null, users: [], transactions: [] }));
-  }
-  const dataUser = localStorage.getItem('user');
-  const dataUsers = localStorage.getItem('users');
-  const dataTransactions = localStorage.getItem('transactions');
-
-  const dataToTransfer: UserData = {
-    user: dataUser ? JSON.parse(dataUser) : null,
-    users: dataUsers ? JSON.parse(dataUsers) : null,
-    transactions: dataTransactions ? JSON.parse(dataTransactions) : null,
-  };
-
-  return JSON.stringify(dataToTransfer);
 }
 
 const settings = [
@@ -75,18 +40,14 @@ export const Root = () => {
   }, []);
 
   /**
-   * Manipulador de clique para links que levam a microfrontends.
-   * Previne a navegação padrão do Next.js e redireciona com dados na URL.
+   * Manipulador de clique para links que levam ao host.
    * @param e Evento de clique do mouse.
    * @param navItem O item de navegação clicado.
    */
   const handleMicrofrontendLinkClick = (e: React.MouseEvent, navItem: NavItem) => {
-    e.preventDefault(); // Impede a navegação padrão do Next.js
-
-    const dataString = getMicrofrontendDataForUrl(); // Obtém os dados formatados
-    const targetUrl = `${navItem.value}?data=${encodeURIComponent(dataString)}`; // Constrói a URL final
-
-    window.location.href = targetUrl; // Redireciona a aba atual para a URL do microfrontend
+    e.preventDefault();
+    const targetUrl = `${navItem.value}`;
+    window.location.href = targetUrl; // Redireciona a aba atual para a URL do host
   };
 
   return (
