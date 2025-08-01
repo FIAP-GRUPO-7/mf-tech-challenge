@@ -12,10 +12,11 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
+    entry: "./src/root-config.ts",
     output: {
       filename: "grupo7-root-config.js",
-      libraryTarget: "system",          
-      publicPath: "/",            
+      libraryTarget: "system",
+      publicPath: "/",
     },
   });
 };
