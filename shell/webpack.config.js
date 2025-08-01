@@ -1,5 +1,6 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = (webpackConfigEnv, argv) => {
@@ -9,7 +10,7 @@ module.exports = (webpackConfigEnv, argv) => {
     projectName: "root-config",
     webpackConfigEnv,
     argv,
-    disableHtmlGeneration: true,
+    disableHtmlGeneration: false, 
   });
 
   return merge(defaultConfig, {
@@ -20,7 +21,16 @@ module.exports = (webpackConfigEnv, argv) => {
       publicPath: "/",
     },
     optimization: {
-      minimize: false, 
+      minimize: false,
     },
+    plugins: [
+      new HtmlWebpackPlugin({
+        template: path.resolve(__dirname, "src/index.ejs"),
+        inject: false,
+        templateParameters: {
+          isLocal: webpackConfigEnv && webpackConfigEnv.isLocal === "true",
+        },
+      }),
+    ],
   });
 };
