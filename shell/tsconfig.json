@@ -1,6 +1,6 @@
 {
   "extends": "ts-config-single-spa",
-  "files": ["src/root-config.ts"],
+  "files": ["src/grupo7-root-config.ts"],
   "compilerOptions": {
     "declarationDir": "dist"
   },
