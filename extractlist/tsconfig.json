@@ -5,7 +5,6 @@
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["react", "react-dom", "node"],
     "declarationDir": "dist",
-    "noEmit": true
   },
   "files": ["src/grupo7-extractlist.tsx"],
   "include": ["src/**/*"],
