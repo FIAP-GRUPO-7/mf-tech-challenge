@@ -1,12 +1,9 @@
 const { merge } = require("webpack-merge");
 const singleSpaDefaults = require("webpack-config-single-spa-ts");
-const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = (webpackConfigEnv, argv) => {
   const orgName = "grupo7";
-
   const defaultConfig = singleSpaDefaults({
     orgName,
     projectName: "root-config",
@@ -16,30 +13,15 @@ module.exports = (webpackConfigEnv, argv) => {
   });
 
   return merge(defaultConfig, {
-    entry: path.resolve(__dirname, "src/root-config.ts"),
-    output: {
-      filename: "grupo7-root-config.js",
-      libraryTarget: "system",
-      publicPath: "/",
-      path: path.resolve(__dirname, "dist"),
-    },
-    optimization: {
-      minimize: false,
-    },
+    // modify the webpack config however you'd like to by adding to this object
     plugins: [
       new HtmlWebpackPlugin({
-        template: path.resolve(__dirname, "src/index.ejs"),
         inject: false,
-        filename: "index.html",
+        template: "src/index.ejs",
         templateParameters: {
-          isLocal: webpackConfigEnv && webpackConfigEnv.isLocal === "true",
+          isLocal: webpackConfigEnv && webpackConfigEnv.isLocal,
+          orgName,
         },
-      }),
-      new CopyPlugin({
-        patterns: [
-          { from: "src/globals.css", to: "globals.css" },
-          { from: "src/favicon64px.ico", to: "favicon64px.ico" },
-        ],
       }),
     ],
   });
