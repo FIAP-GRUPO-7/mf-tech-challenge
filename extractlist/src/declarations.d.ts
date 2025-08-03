@@ -1,3 +1,5 @@
+export {};
+
 declare module "*.html" {
   const rawHtmlFile: string;
   export = rawHtmlFile;
@@ -36,4 +38,12 @@ declare module "*.webp" {
 declare module "*.svg" {
   const src: string;
   export default src;
+}
+
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      [elemName: string]: any;
+    }
+  }
 }

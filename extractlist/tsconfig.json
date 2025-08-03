@@ -4,9 +4,9 @@
     "jsx": "react-jsx",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "types": ["react", "react-dom", "node"],
-    "declarationDir": "dist",
+    "declarationDir": "dist"
   },
   "files": ["src/grupo7-extractlist.tsx"],
-  "include": ["src/**/*"],
+  "include": ["src", "src/declarations.d.ts"],
   "exclude": ["src/**/*.test*"]
 }
