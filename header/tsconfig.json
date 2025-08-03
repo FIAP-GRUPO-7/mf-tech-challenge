@@ -2,9 +2,14 @@
   "extends": "ts-config-single-spa",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "declarationDir": "dist"
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["react", "react-dom", "node"],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationDir": "dist",
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
-  "files": ["src/grupo7-header.tsx"],
   "include": ["src/**/*"],
   "exclude": ["src/**/*.test*"]
 }

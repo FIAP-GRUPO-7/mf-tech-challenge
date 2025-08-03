@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface Transaction {
+export interface Transaction {
     id: string;
     type: string;
     value: number;
