@@ -4,15 +4,15 @@ import auth from "../features/auth";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const makeStore = () => {
-    return configureStore({
+  return configureStore({
     reducer: {
-        auth,
-        transactions,
-        transactionsTypes
+      auth,
+      transactions,
+      transactionsTypes
     }
-})
-}
+  });
+};
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type AppState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
+export type AppState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
