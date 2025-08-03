@@ -8,13 +8,13 @@ module.exports = (webpackConfigEnv, argv) => {
     projectName: "extractlist",
     webpackConfigEnv,
     argv,
-    outputSystemJS: false,
+    outputSystemJS: true,
   });
 
   return merge(defaultConfig, {
       plugins: [
         new Dotenv({
-          path: `./.env.${webpackConfigEnv.NODE_ENV || 'development'}`, // Caminho para o seu arquivo .env
+          path: `./.env.${webpackConfigEnv.NODE_ENV || 'development'}`,// Caminho para o seu arquivo .env
           systemvars: true, // Permite que variáveis do sistema (como NODE_ENV) sejam acessadas
           safe: false, // Não falha se o arquivo .env não existir
         }),

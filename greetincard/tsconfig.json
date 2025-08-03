@@ -2,7 +2,7 @@
   "extends": "ts-config-single-spa",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "declarationDir": "dist"
+    "types": ["react", "react-dom", "node"]
   },
   "files": ["src/grupo7-greetingcard.tsx"],
   "include": ["src/**/*"],

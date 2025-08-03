@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface TransactionsTypesState {
+export interface TransactionsTypesState {
     types: string[];
 }
 
