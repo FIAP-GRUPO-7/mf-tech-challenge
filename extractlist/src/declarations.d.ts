@@ -39,11 +39,3 @@ declare module "*.svg" {
   const src: string;
   export default src;
 }
-
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      [elemName: string]: any;
-    }
-  }
-}
